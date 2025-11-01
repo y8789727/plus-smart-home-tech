@@ -23,7 +23,8 @@ public class KafkaEventProducer implements AutoCloseable {
     public void send(SpecificRecordBase event, String hubId, Instant timestamp, KafkaConfig.TopicType topicType) {
         String topic = topics.get(topicType);
 
-        ProducerRecord<String, SpecificRecordBase> producerRecord = new ProducerRecord<>(topic, 1, timestamp.toEpochMilli(), hubId, event);
+        //ProducerRecord<String, SpecificRecordBase> producerRecord = new ProducerRecord<>(topic, 1, timestamp.toEpochMilli(), hubId, event);
+        ProducerRecord<String, SpecificRecordBase> producerRecord = new ProducerRecord<>(topic, null, timestamp.toEpochMilli(), hubId, event);
 
         kafkaProducer.send(producerRecord);
     }

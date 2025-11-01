@@ -23,7 +23,7 @@ public class GeneralAvroSerializer implements Serializer<SpecificRecordBase> {
 
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             encoder = encoderFactory.binaryEncoder(outputStream, encoder);
-            DatumWriter<SpecificRecordBase> datumWriter = new SpecificDatumWriter<>(SpecificRecordBase.class);
+            DatumWriter<SpecificRecordBase> datumWriter = new SpecificDatumWriter<>(event.getSchema());
             datumWriter.write(event, encoder);
             encoder.flush();
             return outputStream.toByteArray();
