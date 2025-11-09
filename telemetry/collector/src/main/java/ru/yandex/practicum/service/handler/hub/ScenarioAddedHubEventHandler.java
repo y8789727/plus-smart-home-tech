@@ -6,8 +6,15 @@ import ru.yandex.practicum.dto.hub.HubEvent;
 import ru.yandex.practicum.dto.hub.HubEventType;
 import ru.yandex.practicum.dto.hub.ScenarioAddedEvent;
 import ru.yandex.practicum.dto.hub.ScenarioCondition;
+import ru.yandex.practicum.grpc.telemetry.event.DeviceActionProto;
+import ru.yandex.practicum.grpc.telemetry.event.DeviceAddedEventProto;
+import ru.yandex.practicum.grpc.telemetry.event.HubEventProto;
+import ru.yandex.practicum.grpc.telemetry.event.ScenarioAddedEventProto;
+import ru.yandex.practicum.grpc.telemetry.event.ScenarioConditionProto;
+import ru.yandex.practicum.kafka.telemetry.event.DeviceAddedEventAvro;
+import ru.yandex.practicum.kafka.telemetry.event.DeviceTypeAvro;
 import ru.yandex.practicum.producer.KafkaEventProducer;
-import ru.yandex.practicum.util.EnumMapper;
+import ru.yandex.practicum.util.Utils;
 import ru.yandex.practicum.kafka.telemetry.event.ActionTypeAvro;
 import ru.yandex.practicum.kafka.telemetry.event.ConditionOperationAvro;
 import ru.yandex.practicum.kafka.telemetry.event.ConditionTypeAvro;
@@ -27,11 +34,16 @@ public class ScenarioAddedHubEventHandler extends BaseHubEventHandler<ScenarioAd
         return HubEventType.SCENARIO_ADDED;
     }
 
+    @Override
+    public HubEventProto.PayloadCase getMessageTypeGrpc() {
+        return HubEventProto.PayloadCase.SCENARIO_ADDED;
+    }
+
     private static DeviceActionAvro mapToAvro(DeviceAction action) {
         return DeviceActionAvro.newBuilder()
                 .setSensorId(action.getSensorId())
                 .setValue(action.getValue())
-                .setType(EnumMapper.mapEnum(action.getType(), ActionTypeAvro.class))
+                .setType(Utils.mapEnum(action.getType(), ActionTypeAvro.class))
                 .build();
     }
 
@@ -39,8 +51,29 @@ public class ScenarioAddedHubEventHandler extends BaseHubEventHandler<ScenarioAd
         return ScenarioConditionAvro.newBuilder()
                 .setSensorId(condition.getSensorId())
                 .setValue(condition.getValue())
-                .setType(EnumMapper.mapEnum(condition.getType(), ConditionTypeAvro.class))
-                .setOperation(EnumMapper.mapEnum(condition.getOperation(), ConditionOperationAvro.class))
+                .setType(Utils.mapEnum(condition.getType(), ConditionTypeAvro.class))
+                .setOperation(Utils.mapEnum(condition.getOperation(), ConditionOperationAvro.class))
+                .build();
+    }
+
+
+    private static DeviceActionAvro mapToAvro(DeviceActionProto action) {
+        return DeviceActionAvro.newBuilder()
+                .setSensorId(action.getSensorId())
+                .setValue(action.getValue())
+                .setType(Utils.mapEnum(action.getType(), ActionTypeAvro.class))
+                .build();
+    }
+
+    private static ScenarioConditionAvro mapToAvro(ScenarioConditionProto condition) {
+        return ScenarioConditionAvro.newBuilder()
+                .setSensorId(condition.getSensorId())
+                .setValue(switch (condition.getType()) {
+                            case MOTION, SWITCH ->  condition.getBoolValue();
+                            default -> condition.getIntValue();
+                        })
+                .setType(Utils.mapEnum(condition.getType(), ConditionTypeAvro.class))
+                .setOperation(Utils.mapEnum(condition.getOperation(), ConditionOperationAvro.class))
                 .build();
     }
 
@@ -51,6 +84,16 @@ public class ScenarioAddedHubEventHandler extends BaseHubEventHandler<ScenarioAd
                 .setName(specificEvent.getName())
                 .setActions(specificEvent.getActions().stream().map(ScenarioAddedHubEventHandler::mapToAvro).toList())
                 .setConditions(specificEvent.getConditions().stream().map(ScenarioAddedHubEventHandler::mapToAvro).toList())
+                .build();
+    }
+
+    @Override
+    protected ScenarioAddedEventAvro mapToAvro(HubEventProto event) {
+        ScenarioAddedEventProto specificEvent = event.getScenarioAdded();
+        return ScenarioAddedEventAvro.newBuilder()
+                .setName(specificEvent.getName())
+                .setActions(specificEvent.getActionList().stream().map(ScenarioAddedHubEventHandler::mapToAvro).toList())
+                .setConditions(specificEvent.getConditionList().stream().map(ScenarioAddedHubEventHandler::mapToAvro).toList())
                 .build();
     }
 }
