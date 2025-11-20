@@ -49,7 +49,6 @@ public class SensorEventConsumer {
         } finally {
             try {
                 producer.flush();
-                //consumer.commitSync(currentOffsets);
                 consumer.commitSync();
             } finally {
                 log.info("Закрываем консьюмер");
