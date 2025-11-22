@@ -39,7 +39,7 @@ public class SnapshotServiceImpl implements SnapshotService {
     private final Map<ConditionType, Map<Class<?>, Function<SensorStateAvro, Integer>>> sensorValueGetters = defineSensorValueGetters();
 
     @Override
-    public void processSnapshot(final SensorsSnapshotAvro snapshot) {
+    public void processSnapshot(SensorsSnapshotAvro snapshot) {
 
         final Timestamp snapshotTimestamp = Timestamp.newBuilder()
                 .setSeconds(snapshot.getTimestamp().getEpochSecond())
@@ -51,7 +51,7 @@ public class SnapshotServiceImpl implements SnapshotService {
                 .forEach(s -> this.doActions(s, snapshotTimestamp));
     }
 
-    private boolean allConditionsTrue(final SensorsSnapshotAvro snapshot, Map<String, Condition> conditions) {
+    private boolean allConditionsTrue(SensorsSnapshotAvro snapshot, Map<String, Condition> conditions) {
         log.info("Analyzer-SnapshotServiceImpl-allConditionsTrue: \n snapshot={} \n conditions={}", snapshot, conditions);
         return conditions.entrySet().stream()
                 .allMatch(sensorCondition -> calcCondition(sensorCondition.getValue(), snapshot.getSensorsState().get(sensorCondition.getKey())));

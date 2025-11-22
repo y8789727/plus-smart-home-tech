@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
-import java.util.List;
 import java.util.Properties;
 
 @Getter
@@ -13,12 +12,12 @@ import java.util.Properties;
 @ConfigurationProperties("aggregator.kafka-consumer")
 public class KafkaConsumerConfig {
     private final Properties properties;
-    private final List<String> topics;
+    private final String topic;
     private final Duration timeout;
 
     public KafkaConsumerConfig(Properties properties, String topic, Integer timeout) {
         this.properties = properties;
-        this.topics = List.of(topic);
+        this.topic = topic;
         this.timeout = Duration.ofMillis(timeout);
     }
 }

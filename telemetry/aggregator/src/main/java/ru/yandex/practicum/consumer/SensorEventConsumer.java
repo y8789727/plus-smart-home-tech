@@ -14,6 +14,7 @@ import ru.yandex.practicum.producer.KafkaSnapshotProducer;
 import ru.yandex.practicum.storage.SensorSnapshotStorage;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -32,7 +33,7 @@ public class SensorEventConsumer {
         Runtime.getRuntime().addShutdownHook(new Thread(consumer::wakeup));
 
         try {
-            consumer.subscribe(kafkaConsumerConfig.getTopics());
+            consumer.subscribe(List.of(kafkaConsumerConfig.getTopic()));
 
             while (true) {
                 ConsumerRecords<String, SensorEventAvro> records = consumer.poll(kafkaConsumerConfig.getTimeout());
