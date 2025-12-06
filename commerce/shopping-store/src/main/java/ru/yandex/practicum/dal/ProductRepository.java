@@ -9,4 +9,6 @@ import ru.yandex.practicum.dal.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
     Page<Product> findByCategoryAndProductState(ProductCategory category, ProductState productState, Pageable pageable);
+
+    Page<Product> findByCategory(ProductCategory category, Pageable pageable);
 }

@@ -23,7 +23,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Page<ProductDto> findProducts(ProductCategory category, Pageable pageable) {
-        return  productRepository.findByCategoryAndProductState(category, ProductState.ACTIVE, pageable).map(ProductMapper::mapToProductDto);
+        return productRepository.findByCategory(category, pageable).map(ProductMapper::mapToProductDto);
     }
 
     @Override
