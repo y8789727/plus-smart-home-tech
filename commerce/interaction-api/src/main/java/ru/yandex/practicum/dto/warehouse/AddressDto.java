@@ -1,0 +1,14 @@
+package ru.yandex.practicum.dto.warehouse;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class AddressDto {
+    private final String country;
+    private final String city;
+    private final String street;
+    private final String house;
+    private final String flat;
+}
