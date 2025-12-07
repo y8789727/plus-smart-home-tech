@@ -38,9 +38,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ShoppingCartDto addProductsToCart(String userName, Map<String, Integer> products) {
+    public ShoppingCartDto addProductsToCart(String userName, Map<UUID, Integer> products) {
         final Cart cart = getUserCart(userName).orElse(Cart.builder()
-                        .id(UUID.randomUUID().toString())
+                        .id(UUID.randomUUID())
                         .userId(userName)
                         .state(CartState.ACTIVE)
                         .products(new HashMap<>())
@@ -72,7 +72,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ShoppingCartDto removeProductsFromCart(String userName, List<String> products) {
+    public ShoppingCartDto removeProductsFromCart(String userName, List<UUID> products) {
         final Cart cart = getUserCart(userName).orElseThrow(() -> new NoCartFound("Для пользователя " + userName + " не найдена активная корзина"));
         products.forEach(p -> {
             if (cart.getProducts().containsKey(p)) {
@@ -127,7 +127,6 @@ public class CartServiceImpl implements CartService {
     }
 
     private void saveCartAndProducts(Cart cart) {
-        //cartProductRepository.deleteByCartId(cart.getId());
         cartRepository.save(cart);
         cartProductRepository.saveAll(cart.getProducts().values());
     }

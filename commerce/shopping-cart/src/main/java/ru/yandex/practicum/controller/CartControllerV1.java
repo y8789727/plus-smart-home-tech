@@ -16,6 +16,7 @@ import ru.yandex.practicum.service.CartService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/shopping-cart")
@@ -33,7 +34,7 @@ public class CartControllerV1 {
 
     @PutMapping
     public ShoppingCartDto addProductsToCart(@RequestParam(value = "username", required = false) String userName,
-                                             @RequestBody Map<String, Integer> products){
+                                             @RequestBody Map<UUID, Integer> products){
         validateUser(userName);
 
         return cartService.addProductsToCart(userName, products);
@@ -48,7 +49,7 @@ public class CartControllerV1 {
 
     @PostMapping("/remove")
     public ShoppingCartDto removeProductsFromCart(@RequestParam(value = "username", required = false) String userName,
-                                                  @RequestBody List<String> products) {
+                                                  @RequestBody List<UUID> products) {
         validateUser(userName);
 
         return cartService.removeProductsFromCart(userName, products);

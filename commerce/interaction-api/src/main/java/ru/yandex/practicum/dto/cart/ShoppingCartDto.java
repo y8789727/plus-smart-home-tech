@@ -1,13 +1,14 @@
 package ru.yandex.practicum.dto.cart;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Map;
+import java.util.UUID;
 
-@Data
+@Getter
 @Builder
 public class ShoppingCartDto {
-    private String shoppingCartId;
-    private Map<String, Integer> products;
+    private UUID shoppingCartId;
+    private Map<UUID, Integer> products;
 }

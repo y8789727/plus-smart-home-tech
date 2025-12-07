@@ -16,6 +16,7 @@ import ru.yandex.practicum.dto.product.ProductState;
 import ru.yandex.practicum.dto.product.QuantityState;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "products")
@@ -26,7 +27,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Product {
     @Id
-    private String id;
+    private UUID id;
 
     @Column(name = "product_name", nullable = false)
     private String productName;

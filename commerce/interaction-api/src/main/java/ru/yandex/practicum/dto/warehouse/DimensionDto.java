@@ -1,9 +1,9 @@
 package ru.yandex.practicum.dto.warehouse;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class DimensionDto {
     private Double width;

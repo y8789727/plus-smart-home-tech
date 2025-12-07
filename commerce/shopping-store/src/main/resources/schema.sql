@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS shopping_store;
 SET search_path TO shopping_store;
 
 CREATE TABLE IF NOT EXISTS products (
-    id               VARCHAR(250) PRIMARY KEY,
+    id               UUID PRIMARY KEY,
     product_name     VARCHAR(250) NOT NULL,
     description      VARCHAR(2000),
     quantity_state   VARCHAR(50)  NOT NULL,

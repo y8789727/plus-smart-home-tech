@@ -14,6 +14,7 @@ import ru.yandex.practicum.exception.ProductInShoppingCartLowQuantityInWarehouse
 import ru.yandex.practicum.exception.SpecifiedProductAlreadyInWarehouseException;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public BookedProductsDto checkProductsAvailable(ShoppingCartDto cart, String warehouse) {
-        final Map<String, WarehouseProduct> productById = warehouseRepository.findByWarehouseIdAndProductIdIn(warehouse, cart.getProducts().keySet()).stream()
+        final Map<UUID, WarehouseProduct> productById = warehouseRepository.findByWarehouseIdAndProductIdIn(warehouse, cart.getProducts().keySet()).stream()
                 .collect(Collectors.toMap(WarehouseProduct::getProductId, Function.identity()));
 
         final BookedProductsDto bookingInfo = BookedProductsDto.builder()

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Entity
 @Table(name = "carts")
@@ -27,7 +27,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class Cart {
     @Id
-    private String id;
+    private UUID id;
 
     @Column(name = "user_id", nullable = false)
     private String userId;
@@ -37,5 +37,5 @@ public class Cart {
     private CartState state;
 
     @Transient
-    private Map<String, CartProduct> products = new HashMap<>();
+    private Map<UUID, CartProduct> products;
 }

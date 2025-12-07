@@ -17,4 +17,11 @@ public class WarehouseExceptionHandler {
         log.warn("404 {}", e.getMessage(), e);
         return new Exception(e);
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Exception handleException(final Exception e) {
+        log.warn("500 {}", e.getMessage(), e);
+        return new Exception("На сервере произошла внутренняя ошибка", e);
+    }
 }

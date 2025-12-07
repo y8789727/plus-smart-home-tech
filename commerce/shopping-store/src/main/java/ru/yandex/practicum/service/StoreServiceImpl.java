@@ -29,7 +29,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public ProductDto createProduct(ProductDto productDto) {
         Product product = productRepository.save(Product.builder()
-                .id(UUID.randomUUID().toString())
+                .id(UUID.randomUUID())
                 .productName(productDto.getProductName())
                 .description(productDto.getDescription())
                 .quantityState(productDto.getQuantityState())
@@ -42,7 +42,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public ProductDto updateProduct(String productId, ProductDto productDto) {
+    public ProductDto updateProduct(UUID productId, ProductDto productDto) {
         Product product = getProductById(productId);
 
         product.setProductName(productDto.getProductName());
@@ -55,7 +55,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public boolean removeProductFromStore(String productId) {
+    public boolean removeProductFromStore(UUID productId) {
         Product product = getProductById(productId);
         if (ProductState.DEACTIVATE.equals(product.getProductState())) {
             return false;
@@ -81,11 +81,11 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public ProductDto findProductById(String productId) {
+    public ProductDto findProductById(UUID productId) {
         return ProductMapper.mapToProductDto(getProductById(productId));
     }
 
-    private Product getProductById(String productId) {
+    private Product getProductById(UUID productId) {
         return productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException("Product id=" + productId + " not found"));
     }
 }

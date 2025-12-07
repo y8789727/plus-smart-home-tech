@@ -3,11 +3,13 @@ package ru.yandex.practicum.controller;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.data.domain.Sort;
 
 import java.io.IOException;
 
+@Slf4j
 @JsonComponent
 public class SortJsonSerializer extends JsonSerializer<Sort> {
     @Override
@@ -18,7 +20,7 @@ public class SortJsonSerializer extends JsonSerializer<Sort> {
             try {
                 jsonGenerator.writeObject(v);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Ошибка при сериализация Sort: {}", e.getMessage());
             }
         });
 

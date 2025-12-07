@@ -2,14 +2,16 @@ package ru.yandex.practicum.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import ru.yandex.practicum.dto.product.QuantityState;
 
-@Data
+import java.util.UUID;
+
+@Getter
 @Builder
 public class SetProductQuantityStateRequest {
     @NotBlank(message = "Id продукта не может быть пустым")
-    private String productId;
+    private UUID productId;
     @NotBlank(message = "Количество продукта не может быть пустым")
     private QuantityState quantityState;
 }

@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "warehouse_product")
 @Getter
@@ -30,7 +32,7 @@ public class WarehouseProduct {
     private String warehouseId;
 
     @Column(name = "productId", nullable = false)
-    private String productId;
+    private UUID productId;
 
     @Column(name = "fragile", nullable = false)
     private Boolean fragile;

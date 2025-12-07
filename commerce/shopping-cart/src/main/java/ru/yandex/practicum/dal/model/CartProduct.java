@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "cart_products")
 @Getter
@@ -27,10 +29,10 @@ public class CartProduct {
     private int id;
 
     @Column(name = "cart_id", nullable = false)
-    private String cartId;
+    private UUID cartId;
 
     @Column(name = "product_id", nullable = false)
-    private String productId;
+    private UUID productId;
 
     private int quantity;
 }

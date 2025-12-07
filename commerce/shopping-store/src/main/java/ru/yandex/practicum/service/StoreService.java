@@ -6,16 +6,18 @@ import ru.yandex.practicum.dto.SetProductQuantityStateRequest;
 import ru.yandex.practicum.dto.product.ProductCategory;
 import ru.yandex.practicum.dto.product.ProductDto;
 
+import java.util.UUID;
+
 public interface StoreService {
     Page<ProductDto> findProducts(ProductCategory category, Pageable pageable);
 
     ProductDto createProduct(ProductDto productDto);
 
-    ProductDto updateProduct(String productId, ProductDto productDto);
+    ProductDto updateProduct(UUID productId, ProductDto productDto);
 
-    boolean removeProductFromStore(String productId);
+    boolean removeProductFromStore(UUID productId);
 
     boolean setQuantityState(SetProductQuantityStateRequest quantityRequest);
 
-    ProductDto findProductById(String productId);
+    ProductDto findProductById(UUID productId);
 }

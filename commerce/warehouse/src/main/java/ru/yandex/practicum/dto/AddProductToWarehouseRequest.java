@@ -1,11 +1,13 @@
 package ru.yandex.practicum.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+import java.util.UUID;
+
+@Getter
 @Builder
 public class AddProductToWarehouseRequest {
-    private String productId;
+    private UUID productId;
     private Double quantity;
 }

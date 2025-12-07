@@ -18,6 +18,8 @@ import ru.yandex.practicum.dto.product.ProductDto;
 import ru.yandex.practicum.dto.product.QuantityState;
 import ru.yandex.practicum.service.StoreService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/shopping-store")
 @RequiredArgsConstructor
@@ -40,12 +42,12 @@ public class StoreControllerV1 {
     }
 
     @PostMapping("/removeProductFromStore")
-    public boolean removeProductFromStore(@RequestBody String productId) {
-        return storeService.removeProductFromStore(productId.replace("\"",""));
+    public boolean removeProductFromStore(@RequestBody UUID productId) {
+        return storeService.removeProductFromStore(productId);
     }
 
     @PostMapping("/quantityState")
-    public boolean setQuantityState(@RequestParam("productId") String productId,
+    public boolean setQuantityState(@RequestParam("productId") UUID productId,
                                     @RequestParam("quantityState") QuantityState quantityState) {
         return storeService.setQuantityState(SetProductQuantityStateRequest.builder()
                         .productId(productId)
@@ -54,7 +56,7 @@ public class StoreControllerV1 {
     }
 
     @GetMapping("/{productId}")
-    public ProductDto getProductById(@PathVariable("productId") String productId) {
+    public ProductDto getProductById(@PathVariable("productId") UUID productId) {
         return storeService.findProductById(productId);
     }
 }
