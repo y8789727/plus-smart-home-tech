@@ -9,8 +9,10 @@ spring:
         native:
           searchLocations:
             - classpath:config/{application}
-
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8079

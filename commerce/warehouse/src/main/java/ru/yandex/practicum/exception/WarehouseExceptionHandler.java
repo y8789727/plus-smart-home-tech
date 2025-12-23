@@ -11,9 +11,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class WarehouseExceptionHandler {
     @ExceptionHandler({NoSpecifiedProductInWarehouseException.class,
             SpecifiedProductAlreadyInWarehouseException.class,
-            ProductInShoppingCartLowQuantityInWarehouse.class})
+            ProductInShoppingCartLowQuantityInWarehouse.class,
+            ProductInShoppingCartNotInWarehouse.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Exception handleBadRequest(final Exception e) {
+        log.warn("400 {}", e.getMessage(), e);
+        return new Exception(e);
+    }
+
+    @ExceptionHandler(OrderNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Exception handleNotFound(final Exception e) {
         log.warn("404 {}", e.getMessage(), e);
         return new Exception(e);
     }

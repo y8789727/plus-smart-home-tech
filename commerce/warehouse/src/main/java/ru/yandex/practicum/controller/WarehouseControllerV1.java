@@ -12,11 +12,15 @@ import ru.yandex.practicum.dto.AddProductToWarehouseRequest;
 import ru.yandex.practicum.dto.NewProductInWarehouseRequest;
 import ru.yandex.practicum.dto.cart.ShoppingCartDto;
 import ru.yandex.practicum.dto.warehouse.AddressDto;
+import ru.yandex.practicum.dto.warehouse.AssemblyProductsForOrderRequest;
 import ru.yandex.practicum.dto.warehouse.BookedProductsDto;
+import ru.yandex.practicum.dto.warehouse.ShippedToDeliveryRequest;
 import ru.yandex.practicum.service.WarehouseService;
 
 import java.security.SecureRandom;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/warehouse")
@@ -45,5 +49,20 @@ public class WarehouseControllerV1 {
     @GetMapping("/address")
     public AddressDto getWarehouseAddress() {
         return warehouseService.getWarehouseAddress(CURRENT_WAREHOUSE);
+    }
+
+    @PostMapping("/assembly")
+    public BookedProductsDto assemblyProductsForOrder(@RequestBody AssemblyProductsForOrderRequest productsRequest) {
+        return warehouseService.assemblyProductsForOrder(productsRequest, CURRENT_WAREHOUSE);
+    }
+
+    @PostMapping("/shipped")
+    public void shippedToDelivery(@RequestBody ShippedToDeliveryRequest shippedOrder) {
+        warehouseService.shippedToDelivery(shippedOrder);
+    }
+
+    @PostMapping("/return")
+    public void returnProducts(@RequestBody Map<UUID, Integer> products) {
+        warehouseService.returnProducts(products, CURRENT_WAREHOUSE);
     }
 }
