@@ -31,7 +31,7 @@ public class WarehouseProduct {
     @Column(name = "warehouse_id", nullable = false)
     private String warehouseId;
 
-    @Column(name = "productId", nullable = false)
+    @Column(name = "product_id", nullable = false)
     private UUID productId;
 
     @Column(name = "fragile", nullable = false)
